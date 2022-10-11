@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.parinaz.todolist.databinding.FragmentMainListBinding
 import android.R
 import android.app.Notification
-import android.widget.Adapter
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.content.DialogInterface
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.parinaz.todolist.adapter.ItemAdapter
@@ -64,7 +63,33 @@ class MainListFragment : Fragment() {
         binding.recyclerView.adapter = adapter
 
         binding.button.setOnClickListener(){
-//            Toast.makeText(context, "Invalid format used.", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "Invalid format used.", Toast.LENGTH_SHORT).show()
+
+            context?.let {
+                val txtName =  EditText(it)
+
+// Set the default text to a link of the Queen
+                txtName.hint = "Todo list name"
+
+                AlertDialog.Builder(it)
+                    .setTitle("Todo list name")
+                    .setMessage("Pleas enter the new list name")
+                    .setView(txtName)
+                    .setPositiveButton("Create"
+                    ) { _, _ ->
+                        val text = txtName.text.toString()
+                        if (text != ""){
+                        Repository.addTodoList(text)
+                        binding.recyclerView.adapter = ItemAdapter(it, Repository.getTodoLists())
+                            }else{
+                            Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                    .setNegativeButton("Cancel"
+                    ) { _, _ -> }
+                    .show()
+            }
+
         }
     }
 
