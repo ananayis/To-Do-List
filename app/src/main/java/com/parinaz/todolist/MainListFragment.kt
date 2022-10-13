@@ -14,6 +14,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.parinaz.todolist.adapter.ItemAdapter
 
 
@@ -57,22 +58,24 @@ class MainListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //        val myDataset = Datasource().loadAffirmations()
         val toDoLists = Repository.getTodoLists()
-        val adapter = ItemAdapter(requireContext(), toDoLists)
+        val adapter = ItemAdapter(requireContext(), toDoLists) {
+
+            val action =
+                MainListFragmentDirections
+                    .actionMainListFragmentToToDoListFragment(todoListId = 1)
+            view.findNavController().navigate(action)
+        }
         binding.recyclerView.adapter = adapter
 
         binding.button.setOnClickListener(){
-            //Toast.makeText(context, "Invalid format used.", Toast.LENGTH_SHORT).show()
 
             context?.let {
                 val txtName =  EditText(it)
-
-// Set the default text to a link of the Queen
-                txtName.hint = "Todo list name"
+                txtName.hint = "Enter list title"
 
                 AlertDialog.Builder(it)
-                    .setTitle("Todo list name")
+                    .setTitle("New list")
                     .setMessage("Pleas enter the new list name")
                     .setView(txtName)
                     .setPositiveButton("Create"
@@ -80,7 +83,9 @@ class MainListFragment : Fragment() {
                         val text = txtName.text.toString()
                         if (text != ""){
                         Repository.addTodoList(text)
-                        binding.recyclerView.adapter = ItemAdapter(it, Repository.getTodoLists())
+                        binding.recyclerView.adapter = ItemAdapter(it, Repository.getTodoLists()) {
+//            findNavController().navigate
+                        }
                             }else{
                             Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT).show()
                             }
@@ -97,18 +102,6 @@ class MainListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-//    override fun onClick(v: View) {
-//        val amount: Float = ...
-//        val action =
-//            SpecifyAmountFragmentDirections
-//                .actionSpecifyAmountFragmentToConfirmationFragment(amount)
-//        v.findNavController().navigate(action)
-//    }
-
-//    fun onClick(view: View?) {
-//        Navigation.findNavController(view).navigate(binding.action_mainListFragment_to_toDoListFragment)
-//    }
 
     companion object {
         /**
