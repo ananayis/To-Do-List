@@ -29,18 +29,19 @@ object Repository {
     }
 
     fun getTodos(todoListId: Long): List<Todo>{
-        val selectedList = mutableListOf<Todo>()
+        /*val selectedList = mutableListOf<Todo>()
 
         for (item in todos) {
             if(todoListId == item.todoListId){
                 selectedList.add(item)
             }
         }
-        return selectedList
+        return selectedList*/
+        return todos.filter { it.todoListId == todoListId }
     }
 
-//    fun addTodo(name: String) {
-//        val todo = Todo(name, id = todos.maxOf { it.id } + 1)
-//        todos.add(todo)
-//    }
+    fun addTodo(name: String, todoListId: Long) {
+        val todo = Todo(name, id = todos.maxOf { it.id } + 1, todoListId)
+        todos.add(todo)
+    }
 }

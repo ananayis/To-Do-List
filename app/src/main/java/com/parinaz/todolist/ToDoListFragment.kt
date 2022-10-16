@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.parinaz.todolist.adapter.ItemAdapter
@@ -57,7 +60,32 @@ class ToDoListFragment : Fragment() {
         val adapter = TodoAdapter(requireContext(), todos) {}
         binding.recyclerView.adapter = adapter
 
-        
+        binding.button.setOnClickListener(){
+
+            context?.let {
+                val txtName =  EditText(it)
+                txtName.hint = "add"
+
+                AlertDialog.Builder(it)
+                    .setTitle("add new task")
+                    .setMessage("Pleas enter the new task")
+                    .setView(txtName)
+                    .setPositiveButton("Create"
+                    ) { _, _ ->
+                        val text = txtName.text.toString()
+                        if (text != ""){
+                            Repository.addTodo(text,args.todoListId)
+                            binding.recyclerView.adapter = TodoAdapter(it, Repository.getTodos(args.todoListId)) {}
+                        }else{
+                            Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    .setNegativeButton("Cancel"
+                    ) { _, _ -> }
+                    .show()
+            }
+
+        }
     }
 
     override fun onDestroyView() {
