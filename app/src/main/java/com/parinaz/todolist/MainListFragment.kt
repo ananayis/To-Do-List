@@ -68,7 +68,6 @@ class MainListFragment : Fragment() {
         binding.recyclerView.adapter = adapter
 
         binding.button.setOnClickListener(){
-
             context?.let {
                 val txtName =  EditText(it)
                 txtName.hint = "Enter list title"
@@ -93,7 +92,6 @@ class MainListFragment : Fragment() {
                     ) { _, _ -> }
                     .show()
             }
-
         }
     }
 

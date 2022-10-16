@@ -1,7 +1,8 @@
 package com.parinaz.todolist.domain
 
-data class Todo (
+data class Todo(
     val name: String,
     val id: Long,
-    val todoListId: Long
+    val todoListId: Long,
+    var done: Boolean = false
 )

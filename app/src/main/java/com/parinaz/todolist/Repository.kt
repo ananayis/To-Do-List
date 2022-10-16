@@ -13,8 +13,8 @@ object Repository {
     private val todos = mutableListOf(
         Todo("bread",1,1),
         Todo("water",2,1) ,
-        Todo("nail",3,1),
-        Todo("hair",4,1),
+        Todo("meat",3,1, true),
+        Todo("rice",4,1),
         Todo("post office",5,3),
         Todo("pharmacy",6,3)
     )

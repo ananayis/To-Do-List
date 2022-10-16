@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.parinaz.todolist.R
 import com.parinaz.todolist.databinding.TodosBinding
@@ -16,14 +17,21 @@ class TodoAdapter (private val context: Context,
         ) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoAdapter.TodoViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.todos, parent, false)
-        val todoViewHolder = TodoViewHolder(view)
-        return todoViewHolder
+        return TodoViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: TodoAdapter.TodoViewHolder, position: Int) {
         val todo = dataSet[position]
+        holder.binding.root.setOnClickListener {
+            clickListener(todo.id)
+        }
+
         holder.binding.name.text = todo.name
-//        holder.id = item.id
+        holder.binding.checked.setOnCheckedChangeListener(null)
+        holder.binding.checked.isChecked = todo.done
+        holder.binding.checked.setOnCheckedChangeListener { _, isChecked ->
+            todo.done = isChecked
+        }
     }
 
     override fun getItemCount(): Int {
@@ -32,13 +40,5 @@ class TodoAdapter (private val context: Context,
 
     inner class TodoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = TodosBinding.bind(view)
-        var id: Long = 0
-
-        init {
-            binding.root.setOnClickListener {
-                clickListener(id)
-            }
-
-        }
     }
 }
