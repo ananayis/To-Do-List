@@ -60,10 +60,9 @@ class MainListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val toDoLists = Repository.getTodoLists()
         val adapter = ItemAdapter(requireContext(), toDoLists) {
-
             val action =
                 MainListFragmentDirections
-                    .actionMainListFragmentToToDoListFragment(todoListId = 1)
+                    .actionMainListFragmentToToDoListFragment(todoListId = it)
             view.findNavController().navigate(action)
         }
         binding.recyclerView.adapter = adapter

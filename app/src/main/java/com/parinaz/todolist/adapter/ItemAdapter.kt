@@ -5,10 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.parinaz.todolist.MainActivity
 import com.parinaz.todolist.R
-import com.parinaz.todolist.ToDoListFragment
-import com.parinaz.todolist.databinding.FragmentToDoListBinding
 import com.parinaz.todolist.databinding.ItemBinding
 import com.parinaz.todolist.domain.TodoList
 
