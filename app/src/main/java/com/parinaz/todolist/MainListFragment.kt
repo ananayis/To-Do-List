@@ -16,6 +16,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.parinaz.todolist.adapter.ItemAdapter
+import com.parinaz.todolist.domain.Todo
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -99,6 +100,8 @@ class MainListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 
     companion object {
         /**

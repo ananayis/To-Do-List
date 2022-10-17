@@ -44,4 +44,15 @@ object Repository {
         val todo = Todo(name, id = todos.maxOf { it.id } + 1, todoListId)
         todos.add(todo)
     }
+
+    fun countTodos(todoListId: Long): Int {
+        /*var number = 0
+        for (item in todos){
+            if (todoListId == item.todoListId && !item.done){
+                number++
+            }
+        }
+        return number*/
+        return todos.count { todoListId == it.todoListId && !it.done }
+    }
 }

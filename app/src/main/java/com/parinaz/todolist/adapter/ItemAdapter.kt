@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.parinaz.todolist.R
+import com.parinaz.todolist.Repository
 import com.parinaz.todolist.databinding.ItemBinding
 import com.parinaz.todolist.domain.TodoList
 
@@ -24,6 +25,12 @@ class ItemAdapter(
         val item = dataSet[position]
         holder.binding.name.text = item.name
         holder.id = item.id
+        val count = Repository.countTodos(item.id)
+        if (count != 0) {
+            holder.binding.number.text = count.toString()
+        }else{
+            holder.binding.number.text = ""
+        }
     }
 
     override fun getItemCount(): Int {
