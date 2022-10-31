@@ -1,58 +1,52 @@
 package com.parinaz.todolist
 
+import android.content.Context
+import androidx.room.Room
+import com.parinaz.todolist.db.AppDatabase
 import com.parinaz.todolist.domain.Todo
 import com.parinaz.todolist.domain.TodoList
 
-object Repository {
-    private val todoLists = mutableListOf(
-        TodoList("shopping", 1),
-        TodoList("personal", 2),
-        TodoList("barcelona", 3)
-    )
+class Repository private constructor(context: Context) {
 
-    private val todos = mutableListOf(
-        Todo("bread",1,1),
-        Todo("water",2,1) ,
-        Todo("meat",3,1, true),
-        Todo("rice",4,1),
-        Todo("post office",5,3),
-        Todo("pharmacy",6,3)
-    )
+    private val db = Room.databaseBuilder(
+        context, AppDatabase::class.java, "database"
+    ).allowMainThreadQueries().build()
 
     fun getTodoLists(): List<TodoList>{
-        return todoLists
+        return db.todoListDao().getAll()
     }
 
     fun addTodoList(name: String) {
-        val todoList = TodoList(name, id = todoLists.maxOf { it.id } + 1)
-        todoLists.add(todoList)
+        val todoList = TodoList(name)
+        db.todoListDao().addTodoList(todoList)
     }
 
     fun getTodos(todoListId: Long): List<Todo>{
-        /*val selectedList = mutableListOf<Todo>()
-
-        for (item in todos) {
-            if(todoListId == item.todoListId){
-                selectedList.add(item)
-            }
-        }
-        return selectedList*/
-        return todos.filter { it.todoListId == todoListId }
+        return db.todoDao().getTodosInList(todoListId)
     }
 
     fun addTodo(name: String, todoListId: Long) {
-        val todo = Todo(name, id = todos.maxOf { it.id } + 1, todoListId)
-        todos.add(todo)
+        val todo = Todo(name, todoListId)
+        db.todoDao().addTodo(todo)
     }
 
     fun countTodos(todoListId: Long): Int {
-        /*var number = 0
-        for (item in todos){
-            if (todoListId == item.todoListId && !item.done){
-                number++
+        return db.todoListDao().getUnDoneTodoNumber(todoListId)
+    }
+
+    fun updateTodo(todo: Todo) {
+        db.todoDao().updateTodo(todo)
+    }
+
+    companion object {
+        private var _instance: Repository? = null
+        val instance: Repository
+            get() = _instance!!
+
+        fun initInstance(context: Context){
+            if (_instance == null) {
+                _instance = Repository(context)
             }
         }
-        return number*/
-        return todos.count { todoListId == it.todoListId && !it.done }
     }
 }

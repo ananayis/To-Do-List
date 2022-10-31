@@ -25,7 +25,7 @@ class ItemAdapter(
         val item = dataSet[position]
         holder.binding.name.text = item.name
         holder.id = item.id
-        val count = Repository.countTodos(item.id)
+        val count = Repository.instance.countTodos(item.id)
         if (count != 0) {
             holder.binding.number.text = count.toString()
         }else{

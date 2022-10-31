@@ -56,8 +56,7 @@ class ToDoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val todos = Repository.getTodos(args.todoListId)
-        val adapter = TodoAdapter(requireContext(), todos) {}
+        val adapter = TodoAdapter(requireContext(), args.todoListId) {}
         binding.recyclerView.adapter = adapter
 
         binding.button.setOnClickListener(){
@@ -73,8 +72,8 @@ class ToDoListFragment : Fragment() {
                     ) { _, _ ->
                         val text = txtName.text.toString()
                         if (text != ""){
-                            Repository.addTodo(text,args.todoListId)
-                            binding.recyclerView.adapter = TodoAdapter(it, Repository.getTodos(args.todoListId)) {}
+                            Repository.instance.addTodo(text,args.todoListId)
+                            binding.recyclerView.adapter = TodoAdapter(it, args.todoListId) {}
                         }else{
                             Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT).show()
                         }

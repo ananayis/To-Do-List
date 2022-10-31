@@ -7,14 +7,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.parinaz.todolist.R
+import com.parinaz.todolist.Repository
 import com.parinaz.todolist.databinding.TodosBinding
 import com.parinaz.todolist.domain.Todo
 import com.parinaz.todolist.domain.TodoList
 
-class TodoAdapter (private val context: Context,
-                   private val dataSet: List<Todo>,
-                   private val clickListener: (Long) -> Unit,
-        ) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
+class TodoAdapter(
+    private val context: Context,
+    private val todoListId: Long,
+    private val clickListener: (Long) -> Unit,
+) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
+
+    private var dataSet = Repository.instance.getTodos(todoListId)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoAdapter.TodoViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.todos, parent, false)
         return TodoViewHolder(view)
@@ -30,7 +35,10 @@ class TodoAdapter (private val context: Context,
         holder.binding.checked.setOnCheckedChangeListener(null)
         holder.binding.checked.isChecked = todo.done
         holder.binding.checked.setOnCheckedChangeListener { _, isChecked ->
-            todo.done = isChecked
+            val newTodo = todo.copy(done = isChecked)
+            Repository.instance.updateTodo(newTodo)
+            dataSet = Repository.instance.getTodos(todoListId)
+            notifyItemChanged(position)
         }
     }
 

@@ -59,7 +59,7 @@ class MainListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val toDoLists = Repository.getTodoLists()
+        val toDoLists = Repository.instance.getTodoLists()
         val adapter = ItemAdapter(requireContext(), toDoLists) {
             val action =
                 MainListFragmentDirections
@@ -81,9 +81,12 @@ class MainListFragment : Fragment() {
                     ) { _, _ ->
                         val text = txtName.text.toString()
                         if (text != ""){
-                        Repository.addTodoList(text)
-                        binding.recyclerView.adapter = ItemAdapter(it, Repository.getTodoLists()) {
-//            findNavController().navigate
+                        Repository.instance.addTodoList(text)
+                        binding.recyclerView.adapter = ItemAdapter(it, Repository.instance.getTodoLists()) {
+                            val action =
+                                MainListFragmentDirections
+                                    .actionMainListFragmentToToDoListFragment(todoListId = it)
+                            view.findNavController().navigate(action)
                         }
                             }else{
                             Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT).show()
