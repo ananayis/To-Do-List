@@ -2,6 +2,8 @@ package com.parinaz.todolist
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import androidx.navigation.fragment.NavHostFragment
 import com.parinaz.todolist.databinding.ActivityMainBinding
 

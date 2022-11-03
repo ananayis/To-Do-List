@@ -38,6 +38,10 @@ class Repository private constructor(context: Context) {
         db.todoDao().updateTodo(todo)
     }
 
+    fun deleteTodoList(todoListId: Long) {
+        db.todoDao().deleteTodoList(todoListId)
+    }
+
     companion object {
         private var _instance: Repository? = null
         val instance: Repository

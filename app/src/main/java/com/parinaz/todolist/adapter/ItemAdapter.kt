@@ -13,7 +13,7 @@ import com.parinaz.todolist.domain.TodoList
 class ItemAdapter(
     private val context: Context,
     private val dataSet: List<TodoList>,
-    private val clickListener: (Long) -> Unit,
+    private val clickListener: (TodoList) -> Unit,
     ) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item, parent, false)
@@ -24,12 +24,14 @@ class ItemAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataSet[position]
         holder.binding.name.text = item.name
-        holder.id = item.id
         val count = Repository.instance.countTodos(item.id)
         if (count != 0) {
             holder.binding.number.text = count.toString()
         }else{
             holder.binding.number.text = ""
+        }
+        holder.binding.root.setOnClickListener {
+            clickListener(item)
         }
     }
 
@@ -39,12 +41,5 @@ class ItemAdapter(
 
     inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemBinding.bind(view)
-        var id: Long = 0
-
-        init {
-            binding.root.setOnClickListener {
-                clickListener(id)
-            }
-        }
     }
 }

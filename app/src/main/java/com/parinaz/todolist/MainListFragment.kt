@@ -63,7 +63,7 @@ class MainListFragment : Fragment() {
         val adapter = ItemAdapter(requireContext(), toDoLists) {
             val action =
                 MainListFragmentDirections
-                    .actionMainListFragmentToToDoListFragment(todoListId = it)
+                    .actionMainListFragmentToToDoListFragment(todoList = it)
             view.findNavController().navigate(action)
         }
         binding.recyclerView.adapter = adapter
@@ -85,7 +85,7 @@ class MainListFragment : Fragment() {
                         binding.recyclerView.adapter = ItemAdapter(it, Repository.instance.getTodoLists()) {
                             val action =
                                 MainListFragmentDirections
-                                    .actionMainListFragmentToToDoListFragment(todoListId = it)
+                                    .actionMainListFragmentToToDoListFragment(todoList = it)
                             view.findNavController().navigate(action)
                         }
                             }else{

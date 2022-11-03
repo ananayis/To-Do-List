@@ -17,4 +17,7 @@ interface TodoDao {
 
     @Update
     fun updateTodo(todo: Todo)
+
+    @Query("DELETE FROM todo_list WHERE :todoListId = id;" )
+    fun deleteTodoList(todoListId: Long)
 }

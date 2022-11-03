@@ -2,9 +2,15 @@ package com.parinaz.todolist.domain
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "todo")
+@Entity(tableName = "todo", foreignKeys = [ForeignKey(
+    entity = TodoList::class,
+    parentColumns = arrayOf("id"),
+    childColumns = arrayOf("todo_list_id"),
+    onDelete = ForeignKey.CASCADE
+)])
 data class Todo(
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "todo_list_id") val todoListId: Long,

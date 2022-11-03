@@ -1,6 +1,7 @@
 package com.parinaz.todolist.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.parinaz.todolist.domain.TodoList

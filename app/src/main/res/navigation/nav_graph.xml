@@ -19,7 +19,7 @@
         android:name="com.parinaz.todolist.ToDoListFragment"
         android:label="ToDoListFragment" >
         <argument
-            android:name="todoListId"
-            app:argType="long" />
+            android:name="todoList"
+            app:argType="com.parinaz.todolist.domain.TodoList" />
     </fragment>
 </navigation>

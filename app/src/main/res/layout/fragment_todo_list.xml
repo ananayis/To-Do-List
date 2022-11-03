@@ -27,4 +27,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="20sp"
         android:textStyle="bold"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

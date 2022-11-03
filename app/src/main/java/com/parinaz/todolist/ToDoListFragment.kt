@@ -2,9 +2,6 @@ package com.parinaz.todolist
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -14,6 +11,13 @@ import com.parinaz.todolist.adapter.ItemAdapter
 import com.parinaz.todolist.adapter.TodoAdapter
 import com.parinaz.todolist.databinding.FragmentMainListBinding
 import com.parinaz.todolist.databinding.FragmentTodoListBinding
+
+import android.R.menu
+import android.view.*
+
+import androidx.appcompat.view.menu.MenuBuilder
+import androidx.navigation.findNavController
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -56,7 +60,7 @@ class ToDoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val adapter = TodoAdapter(requireContext(), args.todoListId) {}
+        val adapter = TodoAdapter(requireContext(), args.todoList.id) {}
         binding.recyclerView.adapter = adapter
 
         binding.button.setOnClickListener(){
@@ -72,8 +76,8 @@ class ToDoListFragment : Fragment() {
                     ) { _, _ ->
                         val text = txtName.text.toString()
                         if (text != ""){
-                            Repository.instance.addTodo(text,args.todoListId)
-                            binding.recyclerView.adapter = TodoAdapter(it, args.todoListId) {}
+                            Repository.instance.addTodo(text,args.todoList.id)
+                            binding.recyclerView.adapter = TodoAdapter(it, args.todoList.id) {}
                         }else{
                             Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT).show()
                         }
@@ -82,6 +86,31 @@ class ToDoListFragment : Fragment() {
                     ) { _, _ -> }
                     .show()
             }
+        }
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.action_in_toolbar, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_delete_list -> {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Are you sure?")
+                .setMessage("\"${args.todoList.name}\" will be permanently deleted.")
+                .setPositiveButton("DELETE"
+                ) { _, _ ->
+                    Repository.instance.deleteTodoList(args.todoList.id)
+                    view?.findNavController()?.navigateUp()
+                }
+                .setNegativeButton("CANCEL"
+                ) { _, _ -> }
+                .show()
+            true
+        }   else -> {
+            super.onOptionsItemSelected(item)
         }
     }
 
