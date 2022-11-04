@@ -18,7 +18,16 @@ class TodoAdapter(
     private val clickListener: (Long) -> Unit,
 ) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
-    private var dataSet = Repository.instance.getTodos(todoListId)
+    private lateinit var dataSet: List<Todo>
+
+    init {
+        setData(Repository.instance.getTodos(todoListId))
+        setHasStableIds(true)
+    }
+
+    override fun getItemId(position: Int): Long {
+        return dataSet[position].id
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoAdapter.TodoViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.todos, parent, false)
@@ -37,9 +46,14 @@ class TodoAdapter(
         holder.binding.checked.setOnCheckedChangeListener { _, isChecked ->
             val newTodo = todo.copy(done = isChecked)
             Repository.instance.updateTodo(newTodo)
-            dataSet = Repository.instance.getTodos(todoListId)
-            notifyItemChanged(position)
+            setData(Repository.instance.getTodos(todoListId))
+            //notifyItemChanged(position)
+            notifyDataSetChanged()
         }
+    }
+
+    private fun setData(todos: List<Todo>) {
+        dataSet = todos.sortedBy { it.done }
     }
 
     override fun getItemCount(): Int {
