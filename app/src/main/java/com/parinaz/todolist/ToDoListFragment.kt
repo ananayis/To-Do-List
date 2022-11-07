@@ -63,7 +63,7 @@ class ToDoListFragment : Fragment() {
         val adapter = TodoAdapter(requireContext(), args.todoList.id) {}
         binding.recyclerView.adapter = adapter
 
-        binding.button.setOnClickListener(){
+        binding.fab.setOnClickListener(){
             context?.let {
                 val txtName =  EditText(it)
                 txtName.hint = "add"

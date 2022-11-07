@@ -47,7 +47,6 @@ class TodoAdapter(
             val newTodo = todo.copy(done = isChecked)
             Repository.instance.updateTodo(newTodo)
             setData(Repository.instance.getTodos(todoListId))
-            //notifyItemChanged(position)
             notifyDataSetChanged()
         }
     }
