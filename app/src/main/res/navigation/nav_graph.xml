@@ -21,5 +21,20 @@
         <argument
             android:name="todoList"
             app:argType="com.parinaz.todolist.domain.TodoList" />
+        <action
+            android:id="@+id/action_toDoListFragment_to_todoFragment"
+            app:destination="@id/todoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/todoFragment"
+        android:name="com.parinaz.todolist.TodoFragment"
+        android:label="fragment_todo"
+        tools:layout="@layout/fragment_todo" >
+        <argument
+            android:name="todo"
+            app:argType="com.parinaz.todolist.domain.Todo" />
+        <argument
+            android:name="todoListName"
+            app:argType="string" />
     </fragment>
 </navigation>

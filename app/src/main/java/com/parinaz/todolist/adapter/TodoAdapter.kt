@@ -15,7 +15,7 @@ import com.parinaz.todolist.domain.TodoList
 class TodoAdapter(
     private val context: Context,
     private val todoListId: Long,
-    private val clickListener: (Long) -> Unit,
+    private val clickListener: (Todo) -> Unit,
 ) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
     private lateinit var dataSet: List<Todo>
@@ -37,7 +37,7 @@ class TodoAdapter(
     override fun onBindViewHolder(holder: TodoAdapter.TodoViewHolder, position: Int) {
         val todo = dataSet[position]
         holder.binding.root.setOnClickListener {
-            clickListener(todo.id)
+            clickListener(todo)
         }
 
         holder.binding.name.text = todo.name
