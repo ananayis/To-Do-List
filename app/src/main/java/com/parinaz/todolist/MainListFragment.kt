@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.parinaz.todolist.databinding.FragmentMainListBinding
-import android.R
+import android.app.ActionBar
 import android.app.Notification
 import android.content.DialogInterface
+import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -59,6 +61,9 @@ class MainListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        activity?.title = getString(R.string.app_name)
+
         val toDoLists = Repository.instance.getTodoLists()
         val adapter = ItemAdapter(requireContext(), toDoLists) {
             val action =
@@ -99,12 +104,15 @@ class MainListFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(false);
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-
 
     companion object {
         /**

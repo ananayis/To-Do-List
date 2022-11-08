@@ -11,9 +11,10 @@ import com.parinaz.todolist.adapter.ItemAdapter
 import com.parinaz.todolist.adapter.TodoAdapter
 import com.parinaz.todolist.databinding.FragmentMainListBinding
 import com.parinaz.todolist.databinding.FragmentTodoListBinding
-
+import android.view.MenuItem
 import android.R.menu
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.navigation.findNavController
@@ -60,6 +61,8 @@ class ToDoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        activity?.title = args.todoList.name
+
         val adapter = TodoAdapter(requireContext(), args.todoList.id) {}
         binding.recyclerView.adapter = adapter
 
@@ -93,6 +96,7 @@ class ToDoListFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.action_in_toolbar, menu)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
@@ -109,9 +113,19 @@ class ToDoListFragment : Fragment() {
                 ) { _, _ -> }
                 .show()
             true
-        }   else -> {
+        }
+        android.R.id.home -> {
+            view?.findNavController()?.navigateUp()
+            true
+        }
+        else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true);
     }
 
     override fun onDestroyView() {
