@@ -19,12 +19,25 @@
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/name"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/checked"
-        android:layout_margin="15dp"
-        android:textSize="15sp"/>
+        app:layout_constraintEnd_toStartOf="@+id/star"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        tools:text="mjnvjnfvjkenf vjdfvhfvn ekfvn hf vfn vhm  hj dh fvhdfvdvhd vkv ff vhfjdv hfjd vhj vdhj vdjv"/>
+
+    <ImageView
+        android:id="@+id/star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_empty_star_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/checked" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

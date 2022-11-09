@@ -49,10 +49,28 @@ class TodoAdapter(
             setData(Repository.instance.getTodos(todoListId))
             notifyDataSetChanged()
         }
+        if (todo.important) {
+            holder.binding.star.setImageResource(R.drawable.ic_full_star_24)
+        }else{
+            holder.binding.star.setImageResource(R.drawable.ic_empty_star_24)
+        }
+
+        holder.binding.star.setOnClickListener { view ->
+            val newImportant = !todo.important
+            if (newImportant) {
+                holder.binding.star.setImageResource(R.drawable.ic_full_star_24)
+            }else{
+                holder.binding.star.setImageResource(R.drawable.ic_empty_star_24)
+            }
+            val newTodo = todo.copy(important = newImportant)
+            Repository.instance.updateTodo(newTodo)
+            setData(Repository.instance.getTodos(todoListId))
+            notifyDataSetChanged()
+        }
     }
 
     private fun setData(todos: List<Todo>) {
-        dataSet = todos.sortedBy { it.done }
+        dataSet = todos.sortedBy { !it.important }.sortedBy { it.done }
     }
 
     override fun getItemCount(): Int {

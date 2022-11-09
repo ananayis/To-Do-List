@@ -59,7 +59,7 @@ class ToDoListFragment : Fragment() {
                     ) { _, _ ->
                         val text = txtName.text.toString()
                         if (text != ""){
-                            Repository.instance.addTodo(Todo(text,args.todoList.id, false, Date()))
+                            Repository.instance.addTodo(Todo(text,args.todoList.id, false, Date(),false))
                             binding.recyclerView.adapter = TodoAdapter(it, args.todoList.id) {
                                 val action =
                                     ToDoListFragmentDirections.actionToDoListFragmentToTodoFragment(it, args.todoList.name)

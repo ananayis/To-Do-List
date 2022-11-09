@@ -7,25 +7,23 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import com.parinaz.todolist.adapter.TodoAdapter
 import com.parinaz.todolist.databinding.FragmentTodoBinding
 import com.parinaz.todolist.domain.Todo
-import java.util.*
 
 class TodoFragment : Fragment() {
 
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
     private val args: TodoFragmentArgs by navArgs()
+    private lateinit var todo: Todo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        todo = args.todo
     }
 
     override fun onCreateView(
@@ -39,14 +37,20 @@ class TodoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         activity?.title = args.todoListName
-        binding.name.text = args.todo.name
-        binding.checkBox.isChecked = args.todo.done
-        val df = DateFormat.format("yyyy/MM/dd", args.todo.createdAt )
+        binding.name.text = todo.name
+        binding.checkBox.isChecked = todo.done
+        val df = DateFormat.format("yyyy/MM/dd", todo.createdAt )
         binding.txtDate.text = "created $df"
 
+        if (todo.important) {
+            binding.star.setImageResource(R.drawable.ic_full_star_24)
+        }else{
+            binding.star.setImageResource(R.drawable.ic_empty_star_24)
+        }
+
         binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
-            val newTodo = args.todo.copy(done = isChecked)
-            Repository.instance.updateTodo(newTodo)
+            todo = todo.copy(done = isChecked)
+            Repository.instance.updateTodo(todo)
         }
 
         binding.deleteBtn.setOnClickListener {
@@ -54,11 +58,11 @@ class TodoFragment : Fragment() {
 
                 AlertDialog.Builder(requireContext())
                     .setTitle("Are you sure?")
-                    .setMessage("\"${args.todo.name}\" will be permanently deleted.")
+                    .setMessage("\"${todo.name}\" will be permanently deleted.")
                     .setPositiveButton(
                         "DELETE"
                     ) { _, _ ->
-                        Repository.instance.deleteTodo(args.todo)
+                        Repository.instance.deleteTodo(todo)
                         view.findNavController().navigateUp()
                     }
                     .setNegativeButton(
@@ -66,6 +70,17 @@ class TodoFragment : Fragment() {
                     ) { _, _ -> }
                     .show()
             }
+        }
+
+        binding.star.setOnClickListener {
+            val newImportant = !todo.important
+            if (newImportant) {
+                binding.star.setImageResource(R.drawable.ic_full_star_24)
+            }else{
+                binding.star.setImageResource(R.drawable.ic_empty_star_24)
+            }
+            todo = todo.copy(important = newImportant)
+            Repository.instance.updateTodo(todo)
         }
     }
 
@@ -79,4 +94,3 @@ class TodoFragment : Fragment() {
         }
     }
 }
-
