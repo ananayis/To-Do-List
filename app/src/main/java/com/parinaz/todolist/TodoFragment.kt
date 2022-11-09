@@ -1,6 +1,7 @@
 package com.parinaz.todolist
 
 import android.os.Bundle
+import android.text.format.DateFormat
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.parinaz.todolist.adapter.TodoAdapter
 import com.parinaz.todolist.databinding.FragmentTodoBinding
 import com.parinaz.todolist.domain.Todo
+import java.util.*
 
 class TodoFragment : Fragment() {
 
@@ -39,6 +41,8 @@ class TodoFragment : Fragment() {
         activity?.title = args.todoListName
         binding.name.text = args.todo.name
         binding.checkBox.isChecked = args.todo.done
+        val df = DateFormat.format("yyyy/MM/dd", args.todo.createdAt )
+        binding.txtDate.text = "created $df"
 
         binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
             val newTodo = args.todo.copy(done = isChecked)

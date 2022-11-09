@@ -25,8 +25,7 @@ class Repository private constructor(context: Context) {
         return db.todoDao().getTodosInList(todoListId)
     }
 
-    fun addTodo(name: String, todoListId: Long) {
-        val todo = Todo(name, todoListId)
+    fun addTodo(todo: Todo) {
         db.todoDao().addTodo(todo)
     }
 

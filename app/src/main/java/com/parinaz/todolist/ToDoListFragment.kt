@@ -13,6 +13,8 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 
 import androidx.navigation.findNavController
+import com.parinaz.todolist.domain.Todo
+import java.util.*
 
 class ToDoListFragment : Fragment() {
 
@@ -57,7 +59,7 @@ class ToDoListFragment : Fragment() {
                     ) { _, _ ->
                         val text = txtName.text.toString()
                         if (text != ""){
-                            Repository.instance.addTodo(text,args.todoList.id)
+                            Repository.instance.addTodo(Todo(text,args.todoList.id, false, Date()))
                             binding.recyclerView.adapter = TodoAdapter(it, args.todoList.id) {
                                 val action =
                                     ToDoListFragmentDirections.actionToDoListFragmentToTodoFragment(it, args.todoList.name)
