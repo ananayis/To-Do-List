@@ -10,6 +10,7 @@ import com.parinaz.todolist.databinding.FragmentMainListBinding
 import android.app.ActionBar
 import android.app.Notification
 import android.content.DialogInterface
+import android.util.Log
 import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -29,12 +30,14 @@ class MainListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        Log.d("test", System.currentTimeMillis().toString())
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMainListBinding.inflate(inflater, container, false)
         val view = binding.root
         return view

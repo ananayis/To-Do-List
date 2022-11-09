@@ -5,14 +5,23 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".TodoFragment"
-    android:padding="10dp">
+    android:background="#D1D2D3">
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:id="@+id/view1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/white"/>
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/checkBox"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="10dp"/>
 
     <TextView
         android:id="@+id/name"
@@ -22,6 +31,24 @@
         app:layout_constraintStart_toEndOf="@id/checkBox"
         app:layout_constraintTop_toTopOf="@+id/checkBox"
         android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:layout_margin="10dp"/>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:id="@+id/view2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/white"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/deleteBtn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_baseline_delete_24"
+        android:layout_margin="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.parinaz.todolist.adapter.TodoAdapter
 import com.parinaz.todolist.databinding.FragmentTodoBinding
 import com.parinaz.todolist.domain.Todo
 
@@ -42,6 +45,24 @@ class TodoFragment : Fragment() {
             Repository.instance.updateTodo(newTodo)
         }
 
+        binding.deleteBtn.setOnClickListener {
+            context?.let {
+
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Are you sure?")
+                    .setMessage("\"${args.todo.name}\" will be permanently deleted.")
+                    .setPositiveButton(
+                        "DELETE"
+                    ) { _, _ ->
+                        Repository.instance.deleteTodo(args.todo)
+                        view.findNavController().navigateUp()
+                    }
+                    .setNegativeButton(
+                        "CANCEL"
+                    ) { _, _ -> }
+                    .show()
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
@@ -54,3 +75,4 @@ class TodoFragment : Fragment() {
         }
     }
 }
+

@@ -1,9 +1,6 @@
 package com.parinaz.todolist.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.parinaz.todolist.domain.Todo
 
 @Dao
@@ -20,4 +17,7 @@ interface TodoDao {
 
     @Query("DELETE FROM todo_list WHERE :todoListId = id;" )
     fun deleteTodoList(todoListId: Long)
+
+    @Delete
+    fun deleteTodo(todo: Todo)
 }
