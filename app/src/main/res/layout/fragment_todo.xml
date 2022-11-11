@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".TodoFragment"
-    android:background="#D1D2D3">
+    android:background="#D1D2D3"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/checkBox"
-            app:layout_constraintTop_toTopOf="@id/layout"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="@id/layout"
             android:layout_margin="10dp"/>
 
@@ -28,12 +29,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/checkBox"
-            app:layout_constraintTop_toTopOf="@+id/checkBox"
+            app:layout_constraintTop_toTopOf="@id/checkBox"
             app:layout_constraintEnd_toStartOf="@+id/star"
             android:textStyle="bold"
             android:textSize="20sp"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:background="?selectableItemBackground"
+            />
 
         <ImageView
             android:id="@+id/star"
@@ -46,6 +49,53 @@
             app:layout_constraintTop_toTopOf="@+id/checkBox" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/due_date_parent_layout"
+        app:layout_constraintTop_toBottomOf="@id/layout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginVertical="10dp"
+        android:background="?selectableItemBackground"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/due_date_layout"
+            app:layout_constraintTop_toBottomOf="@id/layout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/white"
+
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/calender"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txt_due_date"
+                android:src="@drawable/ic_baseline_calendar_month_24"
+                android:layout_marginHorizontal="25dp"
+                app:flow_verticalAlign="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_due_date"
+                app:layout_constraintTop_toTopOf="@id/due_date_layout"
+                app:layout_constraintStart_toEndOf="@id/calender"
+                android:layout_marginVertical="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="17sp"
+                android:text="Add due date"
+                app:flow_verticalAlign="center"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
 
 
     <View

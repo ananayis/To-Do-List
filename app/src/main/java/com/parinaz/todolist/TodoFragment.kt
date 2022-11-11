@@ -1,17 +1,23 @@
 package com.parinaz.todolist
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.format.DateFormat
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.parinaz.todolist.databinding.FragmentTodoBinding
 import com.parinaz.todolist.domain.Todo
+import java.util.*
+import kotlin.concurrent.fixedRateTimer
 
 class TodoFragment : Fragment() {
 
@@ -35,13 +41,12 @@ class TodoFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         activity?.title = args.todoListName
         binding.name.text = todo.name
         binding.checkBox.isChecked = todo.done
         val df = DateFormat.format("yyyy/MM/dd", todo.createdAt )
         binding.txtDate.text = "created $df"
-
+        showDueDate()
         if (todo.important) {
             binding.star.setImageResource(R.drawable.ic_full_star_24)
         }else{
@@ -81,6 +86,36 @@ class TodoFragment : Fragment() {
             }
             todo = todo.copy(important = newImportant)
             Repository.instance.updateTodo(todo)
+        }
+
+        binding.dueDateParentLayout.setOnClickListener {
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+
+            DatePickerDialog(requireContext(), { _, y, m, d ->
+                c.set(y,m,d)
+                todo = todo.copy(dueDate = c.time)
+                Repository.instance.updateTodo(todo)
+                showDueDate()
+            }, year, month, day).show()
+        }
+    }
+
+    private fun showDueDate() {
+        val dueDate = todo.dueDate
+        if (dueDate != null) {
+            val c = Calendar.getInstance()
+            c.time = dueDate
+            binding.txtDueDate.text = "Due ${c.get(Calendar.YEAR)}/${c.get(Calendar.MONTH)}/${c.get(Calendar.DAY_OF_MONTH)}"
+            if (DateUtils.isPastDay(dueDate)){
+                binding.txtDueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+            } else {
+                binding.txtDueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+            }
+        } else {
+            binding.txtDueDate.text = "Add due date"
         }
     }
 
