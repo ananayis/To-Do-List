@@ -47,6 +47,7 @@ class TodoFragment : Fragment() {
         val df = DateFormat.format("yyyy/MM/dd", todo.createdAt )
         binding.txtDate.text = "created $df"
         showDueDate()
+
         if (todo.important) {
             binding.star.setImageResource(R.drawable.ic_full_star_24)
         }else{
@@ -108,7 +109,7 @@ class TodoFragment : Fragment() {
         if (dueDate != null) {
             val c = Calendar.getInstance()
             c.time = dueDate
-            binding.txtDueDate.text = "Due ${c.get(Calendar.YEAR)}/${c.get(Calendar.MONTH)}/${c.get(Calendar.DAY_OF_MONTH)}"
+            binding.txtDueDate.text = "Due ${c.get(Calendar.YEAR)}/${c.get(Calendar.MONTH)+1}/${c.get(Calendar.DAY_OF_MONTH)}"
             if (DateUtils.isPastDay(dueDate)){
                 binding.txtDueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
             } else {
