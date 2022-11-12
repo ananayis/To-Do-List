@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.parinaz.todolist.databinding.FragmentTodoBinding
@@ -41,6 +42,7 @@ class TodoFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d("color", "" + binding.txtDueDate.currentTextColor)
         activity?.title = args.todoListName
         binding.name.text = todo.name
         binding.checkBox.isChecked = todo.done
@@ -102,8 +104,17 @@ class TodoFragment : Fragment() {
                 showDueDate()
             }, year, month, day).show()
         }
-    }
 
+        binding.imgCancelDueDate.setOnClickListener {
+            todo = todo.copy(dueDate = null)
+            Repository.instance.updateTodo(todo)
+            showDueDate()
+            binding.txtDueDate.setTextColor(ContextCompat.getColor(requireContext(),
+                R.color.textColor
+            ))
+            binding.imgCancelDueDate.isVisible = false
+        }
+    }
     private fun showDueDate() {
         val dueDate = todo.dueDate
         if (dueDate != null) {
@@ -112,8 +123,10 @@ class TodoFragment : Fragment() {
             binding.txtDueDate.text = "Due ${c.get(Calendar.YEAR)}/${c.get(Calendar.MONTH)+1}/${c.get(Calendar.DAY_OF_MONTH)}"
             if (DateUtils.isPastDay(dueDate)){
                 binding.txtDueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                binding.imgCancelDueDate.isVisible = true
             } else {
                 binding.txtDueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+                binding.imgCancelDueDate.isVisible = true
             }
         } else {
             binding.txtDueDate.text = "Add due date"

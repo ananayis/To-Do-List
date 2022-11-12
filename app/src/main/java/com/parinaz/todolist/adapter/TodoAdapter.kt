@@ -68,16 +68,16 @@ class TodoAdapter(
             holder.binding.txtDueDate.text = "${c.get(Calendar.YEAR)}/${c.get(Calendar.MONTH)+1}/${c.get(Calendar.DAY_OF_MONTH)}"
             if (DateUtils.isPastDay(dueDate)){
                 holder.binding.txtDueDate.setTextColor(ContextCompat.getColor(context, R.color.red))
-                holder.binding.imgCalender.isVisible = true
             } else if (DateUtils.idToday(dueDate)) {
                 holder.binding.txtDueDate.setTextColor(ContextCompat.getColor(context, R.color.purple_500))
-                holder.binding.imgCalender.isVisible = true
             } else {
                 holder.binding.txtDueDate.setTextColor(ContextCompat.getColor(context, R.color.gray))
-                holder.binding.imgCalender.isVisible = true
             }
+            holder.binding.imgCalender.isVisible = true
+            holder.binding.txtDueDate.isVisible = true
         } else {
-            holder.binding.txtDueDate.text = ""
+            holder.binding.imgCalender.isVisible = false
+            holder.binding.txtDueDate.isVisible = false
         }
 
         holder.binding.star.setOnClickListener { view ->

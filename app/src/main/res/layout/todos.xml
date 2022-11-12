@@ -7,64 +7,78 @@
     android:layout_marginBottom="2dp"
     android:background="#FFFFFF">
 
-<androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
 
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?selectableItemBackground"
-    android:padding="10dp"
-    >
-
-    <CheckBox
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/checked"
-        app:layout_constraintTop_toTopOf="@id/name"
-        app:layout_constraintBottom_toBottomOf="@id/img_calender"
-        app:layout_constraintStart_toStartOf="parent"
-        android:checked="false"
-        />
+        android:minHeight="70dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="?selectableItemBackground"
+        android:padding="10dp"
+        >
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/checked"
-        app:layout_constraintEnd_toStartOf="@+id/star"
-        android:textSize="15sp"
-        tools:text="mjnvjnfvjkenf vjdfvhfvn ekfvn hf vfn vhm  hj dh fvhdfvdvhd vkv ff vhfjdv hfjd vhj vdhj vdjv"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checked"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:checked="false"
+            />
 
-    <ImageView
-        android:id="@+id/star"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_empty_star_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/checked" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/checked"
+            app:layout_constraintEnd_toStartOf="@id/star"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/img_calender"
-        app:layout_constraintTop_toBottomOf="@id/name"
-        app:layout_constraintStart_toStartOf="@id/name"
-        android:layout_marginVertical="5dp"
-        android:src="@drawable/ic_baseline_calendar_month_24"
-        android:visibility="gone"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/name"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="15sp"
+                app:flow_verticalAlign="center"
+                tools:text="mkfjnvjkfnvkjfbnvhjebfr"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt_due_date"
-        app:layout_constraintStart_toEndOf="@id/img_calender"
-        app:layout_constraintTop_toBottomOf="@id/name"
-        android:layout_margin="5dp"
-        android:text="mjnjbhbu"/>
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:id="@+id/img_calender"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginVertical="5dp"
+                android:src="@drawable/ic_baseline_calendar_month_24"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_due_date"
+                app:layout_constraintStart_toEndOf="@id/img_calender"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                android:layout_margin="5dp"
+                android:visibility="gone"
+                android:textSize="12sp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/star"
+            android:src="@drawable/ic_empty_star_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
