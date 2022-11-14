@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -30,25 +31,28 @@ class TodoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        todo = args.todo
+        Log.d("ananayis", "onCreate")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("ananayis", "onCreateView")
+        todo = Repository.instance.getTodo(args.todoId)
         _binding = FragmentTodoBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d("color", "" + binding.txtDueDate.currentTextColor)
+//        Log.d("color", "" + binding.txtDueDate.currentTextColor)
         activity?.title = args.todoListName
         binding.name.text = todo.name
         binding.checkBox.isChecked = todo.done
         val df = DateFormat.format("yyyy/MM/dd", todo.createdAt )
         binding.txtDate.text = "created $df"
         showDueDate()
+        binding.txtNote.text = todo.note
 
         if (todo.important) {
             binding.star.setImageResource(R.drawable.ic_full_star_24)
@@ -78,6 +82,13 @@ class TodoFragment : Fragment() {
                     ) { _, _ -> }
                     .show()
             }
+        }
+
+        binding.view1.setOnClickListener {
+//            Toast.makeText(context, "test", Toast.LENGTH_SHORT).show()
+            val action =
+                TodoFragmentDirections.actionTodoFragmentToNoteFragment(todo)
+            view.findNavController().navigate(action)
         }
 
         binding.star.setOnClickListener {

@@ -41,7 +41,7 @@ class ToDoListFragment : Fragment() {
 
         val adapter = TodoAdapter(requireContext(), args.todoList.id) {
             val action =
-                ToDoListFragmentDirections.actionToDoListFragmentToTodoFragment(it, args.todoList.name)
+                ToDoListFragmentDirections.actionToDoListFragmentToTodoFragment(it.id, args.todoList.name)
             view.findNavController().navigate(action)
         }
         binding.recyclerView.adapter = adapter
@@ -59,10 +59,10 @@ class ToDoListFragment : Fragment() {
                     ) { _, _ ->
                         val text = txtName.text.toString()
                         if (text != ""){
-                            Repository.instance.addTodo(Todo(text,args.todoList.id, false, Date(),false))
+                            Repository.instance.addTodo(Todo(text,args.todoList.id, false, Date(),false,null,""))
                             binding.recyclerView.adapter = TodoAdapter(it, args.todoList.id) {
                                 val action =
-                                    ToDoListFragmentDirections.actionToDoListFragmentToTodoFragment(it, args.todoList.name)
+                                    ToDoListFragmentDirections.actionToDoListFragmentToTodoFragment(it.id, args.todoList.name)
                                 view.findNavController().navigate(action)
                             }
                         }else{

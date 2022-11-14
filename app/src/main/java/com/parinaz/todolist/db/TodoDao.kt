@@ -20,4 +20,7 @@ interface TodoDao {
 
     @Delete
     fun deleteTodo(todo: Todo)
+
+    @Query("SELECT * FROM TODO WHERE :id = id;")
+    fun getTodo(id: Long): Todo
 }

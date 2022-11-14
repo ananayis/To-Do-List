@@ -92,6 +92,8 @@ class TodoAdapter(
             setData(Repository.instance.getTodos(todoListId))
             notifyDataSetChanged()
         }
+
+        holder.binding.imgNote.isVisible = todo.note.isNotEmpty()
     }
 
     private fun setData(todos: List<Todo>) {

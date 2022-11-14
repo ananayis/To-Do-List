@@ -20,5 +20,6 @@ data class Todo(
     @ColumnInfo(name = "created_at") val createdAt: Date,
     @ColumnInfo(name = "important") val important: Boolean = false,
     @ColumnInfo(name = "due_date") val dueDate: Date? = null,
+    @ColumnInfo(name = "note") val note: String,
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long = 0,
     ) : Serializable
