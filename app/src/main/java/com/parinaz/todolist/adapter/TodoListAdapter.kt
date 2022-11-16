@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.parinaz.todolist.R
 import com.parinaz.todolist.Repository
-import com.parinaz.todolist.databinding.ItemBinding
+import com.parinaz.todolist.databinding.ItemTodoListBinding
 import com.parinaz.todolist.domain.TodoList
 
-class ItemAdapter(
+class TodoListAdapter(
     private val context: Context,
     private val dataSet: List<TodoList>,
     private val clickListener: (TodoList) -> Unit,
-    ) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+    ) : RecyclerView.Adapter<TodoListAdapter.ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_todo_list, parent, false)
         val itemViewHolder = ItemViewHolder(view)
         return itemViewHolder
     }
@@ -40,6 +40,6 @@ class ItemAdapter(
     }
 
     inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = ItemBinding.bind(view)
+        val binding = ItemTodoListBinding.bind(view)
     }
 }

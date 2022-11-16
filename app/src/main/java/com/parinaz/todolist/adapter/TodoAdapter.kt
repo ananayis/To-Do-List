@@ -4,18 +4,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.parinaz.todolist.DateUtils
 import com.parinaz.todolist.R
 import com.parinaz.todolist.Repository
-import com.parinaz.todolist.TodoFragment
-import com.parinaz.todolist.databinding.TodosBinding
+import com.parinaz.todolist.databinding.ItemTodoBinding
 import com.parinaz.todolist.domain.Todo
-import com.parinaz.todolist.domain.TodoList
 import java.util.*
 
 class TodoAdapter(
@@ -36,7 +32,7 @@ class TodoAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoAdapter.TodoViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.todos, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_todo, parent, false)
         return TodoViewHolder(view)
     }
 
@@ -105,6 +101,6 @@ class TodoAdapter(
     }
 
     inner class TodoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = TodosBinding.bind(view)
+        val binding = ItemTodoBinding.bind(view)
     }
 }

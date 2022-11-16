@@ -7,19 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.parinaz.todolist.databinding.FragmentMainListBinding
-import android.app.ActionBar
-import android.app.Notification
-import android.content.DialogInterface
-import android.util.Log
-import android.view.MenuItem
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.parinaz.todolist.adapter.ItemAdapter
-import com.parinaz.todolist.domain.Todo
+import com.parinaz.todolist.adapter.TodoListAdapter
 
 class MainListFragment : Fragment() {
 
@@ -30,8 +22,6 @@ class MainListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
-        Log.d("test", System.currentTimeMillis().toString())
     }
 
     override fun onCreateView(
@@ -48,7 +38,7 @@ class MainListFragment : Fragment() {
         activity?.title = getString(R.string.app_name)
 
         val toDoLists = Repository.instance.getTodoLists()
-        val adapter = ItemAdapter(requireContext(), toDoLists) {
+        val adapter = TodoListAdapter(requireContext(), toDoLists) {
             val action =
                 MainListFragmentDirections
                     .actionMainListFragmentToToDoListFragment(todoList = it)
@@ -56,7 +46,7 @@ class MainListFragment : Fragment() {
         }
         binding.recyclerView.adapter = adapter
 
-        binding.button.setOnClickListener(){
+        binding.layoutNewList.setOnClickListener(){
             context?.let {
                 val txtName =  EditText(it)
                 txtName.hint = "Enter list title"
@@ -70,7 +60,7 @@ class MainListFragment : Fragment() {
                         val text = txtName.text.toString()
                         if (text != ""){
                         Repository.instance.addTodoList(text)
-                        binding.recyclerView.adapter = ItemAdapter(it, Repository.instance.getTodoLists()) {
+                        binding.recyclerView.adapter = TodoListAdapter(it, Repository.instance.getTodoLists()) {
                             val action =
                                 MainListFragmentDirections
                                     .actionMainListFragmentToToDoListFragment(todoList = it)

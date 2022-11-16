@@ -74,13 +74,11 @@ class ToDoListFragment : Fragment() {
                     .show()
             }
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.action_in_toolbar, menu)
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

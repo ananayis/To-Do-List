@@ -50,7 +50,7 @@ class TodoFragment : Fragment() {
         binding.name.text = todo.name
         binding.checkBox.isChecked = todo.done
         val df = DateFormat.format("yyyy/MM/dd", todo.createdAt )
-        binding.txtDate.text = "created $df"
+        binding.txtDate.text = "created on $df"
         showDueDate()
         binding.txtNote.text = todo.note
 
