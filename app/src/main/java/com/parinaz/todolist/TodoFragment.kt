@@ -1,14 +1,12 @@
 package com.parinaz.todolist
 
 import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -45,7 +43,9 @@ class TodoFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        Log.d("color", "" + binding.txtDueDate.currentTextColor)
+
+        registerForContextMenu(binding.dueDateParentLayout)
+
         activity?.title = args.todoListName
         binding.name.text = todo.name
         binding.checkBox.isChecked = todo.done
@@ -103,17 +103,15 @@ class TodoFragment : Fragment() {
         }
 
         binding.dueDateParentLayout.setOnClickListener {
-            val c = Calendar.getInstance()
-            val year = c.get(Calendar.YEAR)
-            val month = c.get(Calendar.MONTH)
-            val day = c.get(Calendar.DAY_OF_MONTH)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                binding.dueDateParentLayout.showContextMenu(binding.txtDueDate.left.toFloat(),binding.txtDueDate.bottom.toFloat())
+            } else {
+                binding.dueDateParentLayout.showContextMenu()
+            }
+        }
 
-            DatePickerDialog(requireContext(), { _, y, m, d ->
-                c.set(y,m,d)
-                todo = todo.copy(dueDate = c.time)
-                Repository.instance.updateTodo(todo)
-                showDueDate()
-            }, year, month, day).show()
+        binding.dueDateParentLayout.setOnLongClickListener {
+            return@setOnLongClickListener true
         }
 
         binding.imgCancelDueDate.setOnClickListener {
@@ -126,6 +124,60 @@ class TodoFragment : Fragment() {
             binding.imgCancelDueDate.isVisible = false
         }
     }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+
+        requireActivity().menuInflater.inflate(R.menu.due_date_menu, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        Log.d("ananayis", "onContextItemSelected : $item")
+        when(item.itemId) {
+            R.id.action_due_pick -> {
+                val c = Calendar.getInstance()
+                val year = c.get(Calendar.YEAR)
+                val month = c.get(Calendar.MONTH)
+                val day = c.get(Calendar.DAY_OF_MONTH)
+
+                DatePickerDialog(requireContext(), { _, y, m, d ->
+                    c.set(y,m,d)
+                    todo = todo.copy(dueDate = c.time)
+                    Repository.instance.updateTodo(todo)
+                    showDueDate()
+                }, year, month, day).show()
+                return true
+            }
+            R.id.action_due_today -> {
+                todo = todo.copy(dueDate = Date())
+                Repository.instance.updateTodo(todo)
+                showDueDate()
+                return true
+            }
+            R.id.action_due_tomorrow -> {
+                val ms = System.currentTimeMillis() + 24*60*60*1000
+                todo = todo.copy(dueDate = Date(ms))
+                Repository.instance.updateTodo(todo)
+                showDueDate()
+                return true
+            }
+            R.id.action_due_next_week -> {
+                val ms = System.currentTimeMillis() + 24*60*60*1000*7
+                todo = todo.copy(dueDate = Date(ms))
+                Repository.instance.updateTodo(todo)
+                showDueDate()
+                return true
+            }
+            else -> {
+                return false
+            }
+        }
+    }
+
     private fun showDueDate() {
         val dueDate = todo.dueDate
         if (dueDate != null) {
