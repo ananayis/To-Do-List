@@ -29,14 +29,12 @@ class TodoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        Log.d("ananayis", "onCreate")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("ananayis", "onCreateView")
         todo = Repository.instance.getTodo(args.todoId)
         _binding = FragmentTodoBinding.inflate(inflater, container, false)
         return binding.root

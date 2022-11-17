@@ -49,8 +49,16 @@ class Repository private constructor(context: Context) {
         return db.todoDao().getTodo(id)
     }
 
+    fun getTodoList(id: Long): TodoList {
+        return db.todoListDao().getTodoList(id)
+    }
+
     fun getDoneTodoNumber(todoListId: Long): Int {
         return db.todoDao().getDoneTodoNumber(todoListId)
+    }
+
+    fun updateTodoList(todoList: TodoList) {
+        db.todoListDao().updateTodoList(todoList)
     }
 
     companion object {

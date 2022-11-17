@@ -3,9 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_Rename_list"
+        android:title="Rename List"
+        android:icon="@drawable/ic_baseline_delete_24"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/action_delete_list"
         android:title="Delete List"
-        android:icon="@drawable/ic_baseline_delete_24"
+        android:icon="@drawable/ic_baseline_calendar_month_24"
         app:showAsAction="never"/>
 
 </menu>

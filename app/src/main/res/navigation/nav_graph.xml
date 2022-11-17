@@ -19,8 +19,8 @@
         android:name="com.parinaz.todolist.ToDoListFragment"
         android:label="ToDoListFragment" >
         <argument
-            android:name="todoList"
-            app:argType="com.parinaz.todolist.domain.TodoList" />
+            android:name="todoListId"
+            app:argType="long" />
         <action
             android:id="@+id/action_toDoListFragment_to_todoFragment"
             app:destination="@id/todoFragment" />

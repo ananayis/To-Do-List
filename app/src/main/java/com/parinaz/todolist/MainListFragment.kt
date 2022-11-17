@@ -41,7 +41,7 @@ class MainListFragment : Fragment() {
         val adapter = TodoListAdapter(requireContext(), toDoLists) {
             val action =
                 MainListFragmentDirections
-                    .actionMainListFragmentToToDoListFragment(todoList = it)
+                    .actionMainListFragmentToToDoListFragment(it.id)
             view.findNavController().navigate(action)
         }
         binding.recyclerView.adapter = adapter
@@ -55,7 +55,7 @@ class MainListFragment : Fragment() {
                     .setTitle("New list")
                     .setMessage("Pleas enter the new list name")
                     .setView(txtName)
-                    .setPositiveButton("Create"
+                    .setPositiveButton("CREATE LIST"
                     ) { _, _ ->
                         val text = txtName.text.toString()
                         if (text != ""){
@@ -63,14 +63,14 @@ class MainListFragment : Fragment() {
                         binding.recyclerView.adapter = TodoListAdapter(it, Repository.instance.getTodoLists()) {
                             val action =
                                 MainListFragmentDirections
-                                    .actionMainListFragmentToToDoListFragment(todoList = it)
+                                    .actionMainListFragmentToToDoListFragment(it.id)
                             view.findNavController().navigate(action)
                         }
                             }else{
                             Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT).show()
                             }
                     }
-                    .setNegativeButton("Cancel"
+                    .setNegativeButton("CANCEL"
                     ) { _, _ -> }
                     .show()
             }
