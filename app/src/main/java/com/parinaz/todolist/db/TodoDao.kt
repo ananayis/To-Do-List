@@ -23,4 +23,7 @@ interface TodoDao {
 
     @Query("SELECT * FROM TODO WHERE :id = id;")
     fun getTodo(id: Long): Todo
+
+    @Query("SELECT COUNT(*) FROM todo WHERE :todoListId = todo_list_id AND done = 1;")
+    fun getDoneTodoNumber(todoListId: Long) : Int
 }

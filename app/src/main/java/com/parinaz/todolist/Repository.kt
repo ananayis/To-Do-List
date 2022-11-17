@@ -49,6 +49,10 @@ class Repository private constructor(context: Context) {
         return db.todoDao().getTodo(id)
     }
 
+    fun getDoneTodoNumber(todoListId: Long): Int {
+        return db.todoDao().getDoneTodoNumber(todoListId)
+    }
+
     companion object {
         private var _instance: Repository? = null
         val instance: Repository

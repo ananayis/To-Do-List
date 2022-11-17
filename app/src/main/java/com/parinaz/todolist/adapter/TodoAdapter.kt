@@ -124,14 +124,27 @@ class TodoAdapter(
         } else if (holder is TodoGroupingViewHolder) {
             val todoGrouping = item as TodoGrouping
             holder.binding.title.text = todoGrouping.title
-
+            val count = Repository.instance.getDoneTodoNumber(todoListId)
+            if (count != 0) {
+                holder.binding.txtCompletedCount.text = count.toString()
+            }
             holder.binding.root.setOnClickListener {
                 todoGrouping.isExpanded = !todoGrouping.isExpanded
+                showCompletedArrow(todoGrouping, holder)
                 loadData()
                 notifyDataSetChanged()
             }
+            showCompletedArrow(todoGrouping, holder)
         } else {
             throw IllegalStateException("wrong holder type: ${holder.javaClass.simpleName}")
+        }
+    }
+
+    private fun showCompletedArrow(todoGrouping: TodoGrouping, holder: TodoGroupingViewHolder) {
+        if (todoGrouping.isExpanded) {
+            holder.binding.imgComplete.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+        } else if (!todoGrouping.isExpanded) {
+            holder.binding.imgComplete.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right_24)
         }
     }
 
