@@ -2,6 +2,7 @@ package com.parinaz.todolist.db
 
 import androidx.room.*
 import com.parinaz.todolist.domain.Todo
+import com.parinaz.todolist.domain.TodoList
 
 @Dao
 interface TodoDao {

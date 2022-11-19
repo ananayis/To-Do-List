@@ -1,17 +1,25 @@
 package com.parinaz.todolist
 
 import android.app.DatePickerDialog
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputType
+import android.text.TextWatcher
 import android.text.format.DateFormat
 import android.util.Log
 import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import android.widget.DatePicker
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.parinaz.todolist.databinding.FragmentTodoBinding
@@ -44,7 +52,7 @@ class TodoFragment : Fragment() {
 
         registerForContextMenu(binding.dueDateParentLayout)
 
-        activity?.title = args.todoListName
+        activity?.title = todo.name
         binding.name.text = todo.name
         binding.checkBox.isChecked = todo.done
         val df = DateFormat.format("yyyy/MM/dd", todo.createdAt )
@@ -83,7 +91,6 @@ class TodoFragment : Fragment() {
         }
 
         binding.view1.setOnClickListener {
-//            Toast.makeText(context, "test", Toast.LENGTH_SHORT).show()
             val action =
                 TodoFragmentDirections.actionTodoFragmentToNoteFragment(todo)
             view.findNavController().navigate(action)
@@ -120,6 +127,32 @@ class TodoFragment : Fragment() {
                 R.color.textColor
             ))
             binding.imgCancelDueDate.isVisible = false
+        }
+
+        binding.name.setOnClickListener {
+            val txtName = EditText(requireContext())
+            txtName.setText(todo.name)
+            AlertDialog.Builder(requireContext())
+                .setTitle("Rename Todo")
+                .setView(txtName)
+                .setPositiveButton(
+                    "SAVE"
+                ) { _, _ ->
+                    val text = txtName.text.toString()
+                    if (text != "") {
+                        todo = todo.copy(name = text)
+                        Repository.instance.updateTodo(todo)
+                        activity?.title = text
+                        binding.name.text = todo.name
+                    } else {
+                        Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+                .setNegativeButton(
+                    "CANCEL"
+                ) { _, _ -> }
+                .show()
         }
     }
 
