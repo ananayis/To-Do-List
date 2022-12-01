@@ -25,9 +25,9 @@
             android:layout_margin="10dp"/>
 
         <TextView
-            android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:id="@+id/todo_name"
             app:layout_constraintStart_toEndOf="@id/checkBox"
             app:layout_constraintTop_toTopOf="@id/checkBox"
             app:layout_constraintEnd_toStartOf="@+id/star"
@@ -35,18 +35,17 @@
             android:textSize="20sp"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
-            android:background="?selectableItemBackground"
-            />
+            android:background="?selectableItemBackground"/>
 
         <ImageView
-            android:id="@+id/star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/star"
             android:layout_margin="10dp"
             android:src="@drawable/ic_empty_star_24"
             app:layout_constraintBottom_toBottomOf="@+id/checkBox"
             app:layout_constraintEnd_toEndOf="@id/layout"
-            app:layout_constraintTop_toTopOf="@+id/checkBox" />
+            app:layout_constraintTop_toTopOf="@+id/checkBox"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -57,8 +56,7 @@
         app:layout_constraintTop_toBottomOf="@id/layout"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginVertical="10dp"
-        android:background="?selectableItemBackground"
-        >
+        android:background="?selectableItemBackground">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -66,14 +64,12 @@
             android:id="@+id/due_date_layout"
             app:layout_constraintTop_toBottomOf="@id/layout"
             app:layout_constraintStart_toStartOf="parent"
-            android:background="@color/white"
-
-            >
+            android:background="@color/white">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/calender"
+                android:id="@+id/img_calender"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txt_due_date"
                 app:layout_constraintBottom_toBottomOf="@+id/txt_due_date"
@@ -86,13 +82,12 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_due_date"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/calender"
+                app:layout_constraintStart_toEndOf="@id/img_calender"
                 android:layout_marginVertical="10dp"
                 android:layout_marginLeft="10dp"
                 android:textSize="17sp"
                 android:text="Add due date"
-                app:flow_verticalAlign="center"
-                />
+                app:flow_verticalAlign="center" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -109,14 +104,13 @@
 
     </FrameLayout>
 
-
     <View
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:id="@+id/view1"
+        android:id="@+id/note_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/due_date_parent_layout"
-        app:layout_constraintBottom_toTopOf="@id/view2"
+        app:layout_constraintBottom_toTopOf="@id/create_date_view"
         android:background="@color/white"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="60dp"/>
@@ -126,8 +120,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/txt_note"
         android:padding="10dp"
-        app:layout_constraintTop_toTopOf="@id/view1"
-        app:layout_constraintStart_toStartOf="@id/view1"
+        app:layout_constraintTop_toTopOf="@id/note_view"
+        app:layout_constraintStart_toStartOf="@id/note_view"
         android:textSize="15sp"
         android:hint="Add note"/>
 
@@ -135,7 +129,7 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:id="@+id/view2"
+        android:id="@+id/create_date_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@color/white"/>
@@ -143,7 +137,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txtDate"
+        android:id="@+id/txt_created_date"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:text="Created"
@@ -153,7 +147,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/deleteBtn"
+        android:id="@+id/btn_delete_todo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/ic_baseline_delete_24"

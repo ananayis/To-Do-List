@@ -12,21 +12,21 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/name"
-        app:layout_constraintBottom_toBottomOf="@id/name"
         android:id="@+id/img_list"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/list_name"
+        app:layout_constraintBottom_toBottomOf="@id/list_name"
         android:src="@drawable/ic_baseline_format_list_bulleted_24"
         android:layout_marginHorizontal="10dp"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/name"
+        android:id="@+id/list_name"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/img_list"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/number"
+        app:layout_constraintEnd_toStartOf="@+id/un_done_todo_count"
         android:layout_marginHorizontal="15dp"
         tools:text="shopping"
         android:textSize="17sp"
@@ -36,12 +36,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/number"
-        app:layout_constraintTop_toTopOf="@id/name"
+        android:id="@+id/un_done_todo_count"
+        app:layout_constraintTop_toTopOf="@id/list_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/name"
+        app:layout_constraintBottom_toBottomOf="@id/list_name"
         android:layout_margin="10dp"
         tools:text="5"
-        android:textSize="15sp" />
+        android:textSize="15sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

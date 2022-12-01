@@ -43,14 +43,22 @@ class ToDoListFragment : Fragment() {
 
         activity?.title = todoList.name
 
+        navigateToTodo()
+
+        createNewTodo()
+    }
+
+    private fun navigateToTodo() {
         val adapter = TodoAdapter(requireContext(), todoList.id) {
             val action =
                 ToDoListFragmentDirections.actionToDoListFragmentToTodoFragment(it.id, todoList.name)
-            view.findNavController().navigate(action)
+            view?.findNavController()?.navigate(action)
         }
-        binding.recyclerView.adapter = adapter
+        binding.recyclerViewTodo.adapter = adapter
+    }
 
-        binding.fab.setOnClickListener(){
+    private fun createNewTodo() {
+        binding.btnAddTodo.setOnClickListener(){
             context?.let {
                 val txtName =  EditText(it)
                 txtName.hint = "add"
@@ -64,10 +72,10 @@ class ToDoListFragment : Fragment() {
                         val text = txtName.text.toString()
                         if (text != ""){
                             Repository.instance.addTodo(Todo(text,todoList.id, false, Date(),false,null,""))
-                            binding.recyclerView.adapter = TodoAdapter(it, todoList.id) {
+                            binding.recyclerViewTodo.adapter = TodoAdapter(it, todoList.id) {
                                 val action =
                                     ToDoListFragmentDirections.actionToDoListFragmentToTodoFragment(it.id, todoList.name)
-                                view.findNavController().navigate(action)
+                                view?.findNavController()?.navigate(action)
                             }
                         }else{
                             Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT).show()
