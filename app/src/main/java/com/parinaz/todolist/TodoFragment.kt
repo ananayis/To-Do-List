@@ -53,25 +53,52 @@ class TodoFragment : Fragment() {
         registerForContextMenu(binding.dueDateParentLayout)
 
         activity?.title = todo.name
-        binding.name.text = todo.name
+
+        binding.todoName.text = todo.name
+
         binding.checkBox.isChecked = todo.done
-        val df = DateFormat.format("yyyy/MM/dd", todo.createdAt )
-        binding.txtDate.text = "created on $df"
-        showDueDate()
+
         binding.txtNote.text = todo.note
 
-        if (todo.important) {
-            binding.star.setImageResource(R.drawable.ic_full_star_24)
-        }else{
-            binding.star.setImageResource(R.drawable.ic_empty_star_24)
-        }
+        setCreatedDate()
 
+        showDueDate()
+
+        updateTodoImportance()
+
+//        checkIfTodoIsImportant()
+
+        updateCheckBox()
+
+        deleteTodo()
+
+        navigateToNote()
+
+        showMenuDueDate()
+
+        cancleDueDate()
+
+        updateTodoName()
+
+        binding.dueDateParentLayout.setOnLongClickListener {
+            return@setOnLongClickListener true
+        }
+    }
+
+    private fun setCreatedDate() {
+        val df = DateFormat.format("yyyy/MM/dd", todo.createdAt )
+        binding.txtCreatedDate.text = "created on $df"
+    }
+
+    private fun updateCheckBox() {
         binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
             todo = todo.copy(done = isChecked)
             Repository.instance.updateTodo(todo)
         }
+    }
 
-        binding.deleteBtn.setOnClickListener {
+    private fun deleteTodo() {
+        binding.btnDeleteTodo.setOnClickListener {
             context?.let {
 
                 AlertDialog.Builder(requireContext())
@@ -81,7 +108,7 @@ class TodoFragment : Fragment() {
                         "DELETE"
                     ) { _, _ ->
                         Repository.instance.deleteTodo(todo)
-                        view.findNavController().navigateUp()
+                        view?.findNavController()?.navigateUp()
                     }
                     .setNegativeButton(
                         "CANCEL"
@@ -89,13 +116,17 @@ class TodoFragment : Fragment() {
                     .show()
             }
         }
+    }
 
-        binding.view1.setOnClickListener {
+    private fun navigateToNote() {
+        binding.noteView.setOnClickListener {
             val action =
                 TodoFragmentDirections.actionTodoFragmentToNoteFragment(todo)
-            view.findNavController().navigate(action)
+            view?.findNavController()?.navigate(action)
         }
+    }
 
+    private fun updateTodoImportance() {
         binding.star.setOnClickListener {
             val newImportant = !todo.important
             if (newImportant) {
@@ -106,7 +137,17 @@ class TodoFragment : Fragment() {
             todo = todo.copy(important = newImportant)
             Repository.instance.updateTodo(todo)
         }
+    }
 
+    private fun checkIfTodoIsImportant() {
+        if (todo.important) {
+            binding.star.setImageResource(R.drawable.ic_full_star_24)
+        }else{
+            binding.star.setImageResource(R.drawable.ic_empty_star_24)
+        }
+    }
+
+    private fun showMenuDueDate() {
         binding.dueDateParentLayout.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 binding.dueDateParentLayout.showContextMenu(binding.txtDueDate.left.toFloat(),binding.txtDueDate.bottom.toFloat())
@@ -114,11 +155,9 @@ class TodoFragment : Fragment() {
                 binding.dueDateParentLayout.showContextMenu()
             }
         }
+    }
 
-        binding.dueDateParentLayout.setOnLongClickListener {
-            return@setOnLongClickListener true
-        }
-
+    private fun cancleDueDate() {
         binding.imgCancelDueDate.setOnClickListener {
             todo = todo.copy(dueDate = null)
             Repository.instance.updateTodo(todo)
@@ -128,8 +167,10 @@ class TodoFragment : Fragment() {
             ))
             binding.imgCancelDueDate.isVisible = false
         }
+    }
 
-        binding.name.setOnClickListener {
+    private fun updateTodoName() {
+        binding.todoName.setOnClickListener {
             val txtName = EditText(requireContext())
             txtName.setText(todo.name)
             AlertDialog.Builder(requireContext())
@@ -143,7 +184,7 @@ class TodoFragment : Fragment() {
                         todo = todo.copy(name = text)
                         Repository.instance.updateTodo(todo)
                         activity?.title = text
-                        binding.name.text = todo.name
+                        binding.todoName.text = todo.name
                     } else {
                         Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT)
                             .show()
@@ -153,6 +194,24 @@ class TodoFragment : Fragment() {
                     "CANCEL"
                 ) { _, _ -> }
                 .show()
+        }
+    }
+
+    private fun showDueDate() {
+        val dueDate = todo.dueDate
+        if (dueDate != null) {
+            val c = Calendar.getInstance()
+            c.time = dueDate
+            binding.txtDueDate.text = "Due ${c.get(Calendar.YEAR)}/${c.get(Calendar.MONTH)+1}/${c.get(Calendar.DAY_OF_MONTH)}"
+            if (DateUtils.isPastDay(dueDate)){
+                binding.txtDueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                binding.imgCancelDueDate.isVisible = true
+            } else {
+                binding.txtDueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+                binding.imgCancelDueDate.isVisible = true
+            }
+        } else {
+            binding.txtDueDate.text = "Add due date"
         }
     }
 
@@ -206,24 +265,6 @@ class TodoFragment : Fragment() {
             else -> {
                 return false
             }
-        }
-    }
-
-    private fun showDueDate() {
-        val dueDate = todo.dueDate
-        if (dueDate != null) {
-            val c = Calendar.getInstance()
-            c.time = dueDate
-            binding.txtDueDate.text = "Due ${c.get(Calendar.YEAR)}/${c.get(Calendar.MONTH)+1}/${c.get(Calendar.DAY_OF_MONTH)}"
-            if (DateUtils.isPastDay(dueDate)){
-                binding.txtDueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
-                binding.imgCancelDueDate.isVisible = true
-            } else {
-                binding.txtDueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
-                binding.imgCancelDueDate.isVisible = true
-            }
-        } else {
-            binding.txtDueDate.text = "Add due date"
         }
     }
 

@@ -23,12 +23,12 @@ class TodoListAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataSet[position]
-        holder.binding.name.text = item.name
+        holder.binding.listName.text = item.name
         val count = Repository.instance.countTodos(item.id)
         if (count != 0) {
-            holder.binding.number.text = count.toString()
+            holder.binding.unDoneTodoCount.text = count.toString()
         }else{
-            holder.binding.number.text = ""
+            holder.binding.unDoneTodoCount.text = ""
         }
         holder.binding.root.setOnClickListener {
             clickListener(item)

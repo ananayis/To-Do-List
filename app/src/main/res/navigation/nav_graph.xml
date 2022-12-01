@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainListFragment"
-        android:name="com.parinaz.todolist.MainListFragment"
+        android:name="com.parinaz.todolist.ListOfTodoListFragment"
         android:label="fragment_to_do_list"
         tools:layout="@layout/fragment_todo_list" >
         <action

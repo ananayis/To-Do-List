@@ -6,16 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.parinaz.todolist.databinding.FragmentMainListBinding
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.parinaz.todolist.adapter.TodoListAdapter
+import com.parinaz.todolist.databinding.FragmentListOfTodoListBinding
 
-class MainListFragment : Fragment() {
+class ListOfTodoListFragment : Fragment() {
 
-    private var _binding: FragmentMainListBinding? = null
+    private var _binding: FragmentListOfTodoListBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
 
@@ -28,7 +28,7 @@ class MainListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainListBinding.inflate(inflater, container, false)
+        _binding = FragmentListOfTodoListBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
     }
@@ -37,16 +37,24 @@ class MainListFragment : Fragment() {
 
         activity?.title = getString(R.string.app_name)
 
+        navigateToTodoList()
+
+        createNewList()
+    }
+
+    private fun navigateToTodoList() {
         val toDoLists = Repository.instance.getTodoLists()
         val adapter = TodoListAdapter(requireContext(), toDoLists) {
             val action =
-                MainListFragmentDirections
+                ListOfTodoListFragmentDirections
                     .actionMainListFragmentToToDoListFragment(it.id)
-            view.findNavController().navigate(action)
+            view?.findNavController()?.navigate(action)
         }
-        binding.recyclerView.adapter = adapter
+        binding.recyclerViewTodoList.adapter = adapter
+    }
 
-        binding.layoutNewList.setOnClickListener(){
+    private fun createNewList() {
+        binding.addNewList.setOnClickListener(){
             context?.let {
                 val txtName =  EditText(it)
                 txtName.hint = "Enter list title"
@@ -59,16 +67,16 @@ class MainListFragment : Fragment() {
                     ) { _, _ ->
                         val text = txtName.text.toString()
                         if (text != ""){
-                        Repository.instance.addTodoList(text)
-                        binding.recyclerView.adapter = TodoListAdapter(it, Repository.instance.getTodoLists()) {
-                            val action =
-                                MainListFragmentDirections
-                                    .actionMainListFragmentToToDoListFragment(it.id)
-                            view.findNavController().navigate(action)
-                        }
-                            }else{
-                            Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT).show()
+                            Repository.instance.addTodoList(text)
+                            binding.recyclerViewTodoList.adapter = TodoListAdapter(it, Repository.instance.getTodoLists()) {
+                                val action =
+                                    ListOfTodoListFragmentDirections
+                                        .actionMainListFragmentToToDoListFragment(it.id)
+                                view?.findNavController()?.navigate(action)
                             }
+                        }else{
+                            Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT).show()
+                        }
                     }
                     .setNegativeButton("CANCEL"
                     ) { _, _ -> }
