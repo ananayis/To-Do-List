@@ -3,7 +3,7 @@ I created the Todo List project as an exercise to practice more with fragments.
 
 This image shows the Todo List first page, there you can visit all the list and create a new List.
 
-<img>![1](https://user-images.githubusercontent.com/97099388/215567405-87248ac5-787e-4565-932f-c56fbd490b11.png)
+<img>![Screenshot_20230213_105713](https://user-images.githubusercontent.com/97099388/218583925-208ad517-b84b-4071-8860-e73b6b6bc7cf.png)
 
 This image shows the Todo List page, there you can visit all the task and of course create a new task. You can see the due date to each task. And you can mark important tasks. Also, as you can see, completed tasks will be added to the completed list.
 
